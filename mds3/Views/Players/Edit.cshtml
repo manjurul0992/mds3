@@ -1,0 +1,100 @@
+﻿@model mds3.Models.ViewModels.PlayerVM
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm("Edit", "Players", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+
+    <div class="row">
+        <div class="col">
+            <h2>Player Edit</h2>
+            @Html.HiddenFor(x => x.PlayerId)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.PlayerName, htmlAttributes: new { @class = "col-form-label col-3" })
+                <div class="col-9">
+                    @Html.EditorFor(x => x.PlayerName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x => x.PlayerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.BirthDate, htmlAttributes: new { @class = "col-form-label col-3" })
+                <div class="col-9">
+                    @Html.EditorFor(x => x.BirthDate, new { htmlAttributes = new { @class = "form-control", Type = "date" } })
+                    @Html.ValidationMessageFor(x => x.BirthDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "col-form-label col-3" })
+                <div class="col-9">
+                    @Html.EditorFor(x => x.Age, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x => x.Age, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.PicturePath, htmlAttributes: new { @class = "col-form-label col-3" })
+                <div class="col-9">
+                    @Html.TextBoxFor(x => x.PicturePath, new { @class = "form-control", Type = "file" })
+                    <p class="border mt-2"> <b>Picture Path : </b> @Path.GetFullPath(Model.Picture)</p>
+                    <img src="@Url.Content(Model.Picture)" width="32" height="32" />
+                    @Html.HiddenFor(x => x.Picture)
+
+                    @Html.ValidationMessageFor(x => x.PlayerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.MaritualStatus, htmlAttributes: new { @class = "col-form-label col-3" })
+                <div class="col-9">
+                    @Html.CheckBoxFor(x => x.MaritualStatus, new { @class = "form-check-input" })
+                    @Html.ValidationMessageFor(x => x.MaritualStatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <hr />
+
+
+            @*<div class="col-8">
+                    <h4><b class="text-center">Select Match Format</b></h4>
+                    <a href="#" id="btnAdd" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                    <div id="FormatStore">
+                        @Html.Action("AddNewFormat", "Players")
+                    </div>
+                </div>*@
+        <div class="row">
+            <h2>Select Match Format</h2>
+            
+            <div class="d-flex justify-content-end">
+                <a href="#" id="btnAdd" class="btn btn-outline-success">+Add</a>
+            </div>
+            <div id="FC">
+                @foreach (var item in Model.FormatList)
+                {
+                    @Html.Action("AddNewFormat", "Players", new { id = item })
+                }
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+
+}
+

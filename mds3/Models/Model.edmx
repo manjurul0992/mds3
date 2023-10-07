@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="mds3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Formats">
+          <Key>
+            <PropertyRef Name="FormatId" />
+          </Key>
+          <Property Name="FormatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormatName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+          </Key>
+          <Property Name="PlayerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BirthDate" Type="datetime" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="Picture" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaritualStatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesEnty">
+          <Key>
+            <PropertyRef Name="SeriesEntryId" />
+          </Key>
+          <Property Name="SeriesEntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerId" Type="int" />
+          <Property Name="FormatId" Type="int" />
+        </EntityType>
+        <Association Name="FK__SeriesEnt__Forma__29572725">
+          <End Role="Formats" Type="Self.Formats" Multiplicity="0..1" />
+          <End Role="SeriesEnty" Type="Self.SeriesEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Formats">
+              <PropertyRef Name="FormatId" />
+            </Principal>
+            <Dependent Role="SeriesEnty">
+              <PropertyRef Name="FormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeriesEnt__Playe__286302EC">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="SeriesEnty" Type="Self.SeriesEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerId" />
+            </Principal>
+            <Dependent Role="SeriesEnty">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mds3ModelStoreContainer">
+          <EntitySet Name="Formats" EntityType="Self.Formats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeriesEnty" EntityType="Self.SeriesEnty" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__SeriesEnt__Forma__29572725" Association="Self.FK__SeriesEnt__Forma__29572725">
+            <End Role="Formats" EntitySet="Formats" />
+            <End Role="SeriesEnty" EntitySet="SeriesEnty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeriesEnt__Playe__286302EC" Association="Self.FK__SeriesEnt__Playe__286302EC">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="SeriesEnty" EntitySet="SeriesEnty" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mds3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Format">
+          <Key>
+            <PropertyRef Name="FormatId" />
+          </Key>
+          <Property Name="FormatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormatName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SeriesEnties" Relationship="Self.FK__SeriesEnt__Forma__29572725" FromRole="Formats" ToRole="SeriesEnty" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+          </Key>
+          <Property Name="PlayerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaritualStatus" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SeriesEnties" Relationship="Self.FK__SeriesEnt__Playe__286302EC" FromRole="Players" ToRole="SeriesEnty" />
+        </EntityType>
+        <EntityType Name="SeriesEnty">
+          <Key>
+            <PropertyRef Name="SeriesEntryId" />
+          </Key>
+          <Property Name="SeriesEntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerId" Type="Int32" />
+          <Property Name="FormatId" Type="Int32" />
+          <NavigationProperty Name="Format" Relationship="Self.FK__SeriesEnt__Forma__29572725" FromRole="SeriesEnty" ToRole="Formats" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__SeriesEnt__Playe__286302EC" FromRole="SeriesEnty" ToRole="Players" />
+        </EntityType>
+        <Association Name="FK__SeriesEnt__Forma__29572725">
+          <End Role="Formats" Type="Self.Format" Multiplicity="0..1" />
+          <End Role="SeriesEnty" Type="Self.SeriesEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Formats">
+              <PropertyRef Name="FormatId" />
+            </Principal>
+            <Dependent Role="SeriesEnty">
+              <PropertyRef Name="FormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeriesEnt__Playe__286302EC">
+          <End Role="Players" Type="Self.Player" Multiplicity="0..1" />
+          <End Role="SeriesEnty" Type="Self.SeriesEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerId" />
+            </Principal>
+            <Dependent Role="SeriesEnty">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mds3Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Formats" EntityType="Self.Format" />
+          <EntitySet Name="Players" EntityType="Self.Player" />
+          <EntitySet Name="SeriesEnties" EntityType="Self.SeriesEnty" />
+          <AssociationSet Name="FK__SeriesEnt__Forma__29572725" Association="Self.FK__SeriesEnt__Forma__29572725">
+            <End Role="Formats" EntitySet="Formats" />
+            <End Role="SeriesEnty" EntitySet="SeriesEnties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeriesEnt__Playe__286302EC" Association="Self.FK__SeriesEnt__Playe__286302EC">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="SeriesEnty" EntitySet="SeriesEnties" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mds3ModelStoreContainer" CdmEntityContainer="mds3Entities">
+          <EntitySetMapping Name="Formats">
+            <EntityTypeMapping TypeName="mds3Model.Format">
+              <MappingFragment StoreEntitySet="Formats">
+                <ScalarProperty Name="FormatId" ColumnName="FormatId" />
+                <ScalarProperty Name="FormatName" ColumnName="FormatName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="mds3Model.Player">
+              <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="MaritualStatus" ColumnName="MaritualStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeriesEnties">
+            <EntityTypeMapping TypeName="mds3Model.SeriesEnty">
+              <MappingFragment StoreEntitySet="SeriesEnty">
+                <ScalarProperty Name="SeriesEntryId" ColumnName="SeriesEntryId" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="FormatId" ColumnName="FormatId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

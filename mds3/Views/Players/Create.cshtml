@@ -1,0 +1,89 @@
+﻿@model mds3.Models.ViewModels.PlayerVM
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm("Create", "Players", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+
+    <div class="row">
+        <div class="col">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.PlayerName, htmlAttributes: new { @class = "col-form-label col-4" })
+                <div class="col-9">
+                    @Html.EditorFor(x => x.PlayerName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x => x.PlayerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.BirthDate, htmlAttributes: new { @class = "col-form-label col-4" })
+                <div class="col-9">
+                    @Html.EditorFor(x => x.BirthDate, new { htmlAttributes = new { @class = "form-control", Type = "date" } })
+                    @Html.ValidationMessageFor(x => x.BirthDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "col-form-label col-4" })
+                <div class="col-9">
+                    @Html.EditorFor(x => x.Age, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x => x.Age, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.PicturePath, htmlAttributes: new { @class = "col-form-label col-4" })
+                <div class="col-9">
+                    @Html.TextBoxFor(x => x.PicturePath, new { @class = "form-control", Type = "file" })
+                    @Html.ValidationMessageFor(x => x.PlayerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                @Html.LabelFor(x => x.MaritualStatus, htmlAttributes: new { @class = "col-form-label col-4" })
+                <div class="col-9">
+                    @Html.CheckBoxFor(x => x.MaritualStatus, new { @class = "form-check-input" })
+                    @Html.ValidationMessageFor(x => x.MaritualStatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <hr />
+
+
+            @*<div class="col-8">
+                    <h4><b class="text-center">Select Match Format</b></h4>
+                    <a href="#" id="btnAdd" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                    <div id="FormatStore">
+                        @Html.Action("AddNewFormat", "Players")
+                    </div>
+                </div>*@
+            <div class="row">
+                <h3>Select Match Format</h3>
+                <div class="d-flex justify-content-end">
+                    <a href="#" id="btnAdd" class="btn btn-outline-success">+Add</a>
+                </div>
+                <div id="FC">
+                    @Html.Action("AddNewFormat", "Players")
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+}
+

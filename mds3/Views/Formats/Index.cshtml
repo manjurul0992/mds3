@@ -1,0 +1,30 @@
+﻿@model IEnumerable<mds3.Models.Format>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Match Format</h2>
+<a href="@Url.Action("Create","Formats")" class="btn btn-primary">Add New </a>
+
+
+<div>
+    <table class="tabke table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Match Format
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => item.FormatName)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

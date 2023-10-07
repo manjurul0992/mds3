@@ -1,0 +1,55 @@
+﻿@model IEnumerable<mds3.Models.Player>
+@{
+    ViewBag.Title = "Index";
+}
+
+<a href="@Url.Action("Create","Players")" class="btn btn-primary">Add New </a>
+
+
+<div class="table-group-divider ">
+    @foreach (var item in Model)
+    {
+        <div>
+            <div class="text-center"><h4>Player details</h4></div>
+            <div>
+
+                <img src="@item.Picture" width="40" height="40" />
+                <label> Name :   @Html.DisplayFor(x => item.PlayerName)</label>
+
+
+                <label> Age :   @Html.DisplayFor(x => item.Age)</label>
+
+                <label> DOB :   @Html.DisplayFor(x => item.BirthDate)</label>
+
+                <label> Marital Status :   @Html.DisplayFor(x => item.MaritualStatus)</label>
+
+
+                <div>
+                    <a href="@Url.Action("Edit", "Players", new {id=item.PlayerId})" class="btn btn-outline-success">Edit</a>
+                    <a href="@Url.Action("Delete", "Players", new {id=item.PlayerId})" class="btn btn-outline-danger">Delete</a>
+                </div>
+            </div>
+            <div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Format Id</th>
+                            <th>Format Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var data in item.SeriesEnties)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(x => data.Format.FormatId)     </td>
+                                <td>@Html.DisplayFor(x => data.Format.FormatName) </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
